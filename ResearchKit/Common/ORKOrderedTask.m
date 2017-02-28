@@ -31,6 +31,7 @@
 
 
 #import "ORKOrderedTask.h"
+#import "ORKResult_Private.h"
 
 #import "ORKAudioStepViewController.h"
 #import "ORKCountdownStepViewController.h"
@@ -270,6 +271,41 @@ ORKTaskProgress ORKTaskProgressMake(NSUInteger current, NSUInteger total) {
         }
     }
     return providesAudioPrompts;
+}
+
+- (double)totalScoreWithTaskResult:(ORKTaskResult *)taskResult {
+    double sum = 0;
+    
+    for (ORKStep *step in self.steps) {
+        
+        ORKStepResult *stepResult = [taskResult stepResultForStepIdentifier:step.identifier];
+        if (!stepResult) continue;
+        
+        BOOL answered = YES;
+        for (ORKResult *result in stepResult.results) {
+            if ([result isKindOfClass:[ORKQuestionResult class]]) {
+                ORKQuestionResult *questionResult = (ORKQuestionResult *)result;
+                if (!questionResult.answer) {
+                    answered = NO;
+                    break;
+                }
+            }
+        }
+        
+        if (!answered) {
+            if (step.dynamicScoreValueBlock) {
+                sum += step.dynamicScoreValueBlock(stepResult);
+            }
+            continue;
+        }
+        
+        if (step.dynamicScoreValueBlock) {
+            sum += step.dynamicScoreValueBlock(stepResult);
+        } else {
+            sum += step.staticScoreValue;
+        }
+    }
+    return sum;
 }
 
 #pragma mark - NSSecureCoding

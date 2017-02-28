@@ -39,8 +39,18 @@ ORK_EXTERN NSString *const ORKNullStepIdentifier ORK_AVAILABLE_DECL;
 
 @class ORKStepViewController;
 @class ORKResult;
+@class ORKStepResult;
 
 @protocol ORKTask;
+
+
+/**
+ Dynamic score value block
+
+ @param stepResult Step result
+ @return Score value
+ */
+typedef double (^DynamicScoreValueBlock)(ORKStepResult *stepResult);
 
 /**
  `ORKStep` is the base class for the steps that can compose a task for presentation
@@ -169,6 +179,18 @@ ORK_CLASS_AVAILABLE
  required by the recorders. Subclasses may override this implementation.
  */
 @property (nonatomic, readonly) ORKPermissionMask requestedPermissions;
+
+/**
+ Static score value
+ 
+ See also `dynamicScoreValueBlock`
+ */
+@property (nonatomic) double staticScoreValue;
+
+/**
+ Dynamic score value block
+ */
+@property (nonatomic, copy, nullable) DynamicScoreValueBlock dynamicScoreValueBlock;
 
 /**
  Checks the parameters of the step and throws exceptions on invalid parameters.
