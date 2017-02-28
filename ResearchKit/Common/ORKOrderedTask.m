@@ -273,7 +273,64 @@ ORKTaskProgress ORKTaskProgressMake(NSUInteger current, NSUInteger total) {
     return providesAudioPrompts;
 }
 
-- (double)totalScoreWithTaskResult:(ORKTaskResult *)taskResult {
+- (nullable NSNumber *)totalScoreWithTaskResult:(ORKTaskResult *)taskResult expressionFormat:(nullable NSString *)format error:(NSError **)error {
+    if (format) {
+        NSMutableDictionary *scoreValues = [NSMutableDictionary new];
+        
+        for (ORKStep *step in self.steps) {
+            
+            ORKStepResult *stepResult = [taskResult stepResultForStepIdentifier:step.identifier];
+            if (stepResult) {
+                
+                BOOL answered = YES;
+                for (ORKResult *result in stepResult.results) {
+                    if ([result isKindOfClass:[ORKQuestionResult class]]) {
+                        ORKQuestionResult *questionResult = (ORKQuestionResult *)result;
+                        if (!questionResult.answer) {
+                            answered = NO;
+                            break;
+                        }
+                    }
+                }
+                
+                if (!answered) {
+                    if (step.dynamicScoreValueBlock) {
+                        [scoreValues setObject:@(step.dynamicScoreValueBlock(stepResult)) forKey:step.identifier];
+                        continue;
+                    } else {
+                        NSString *reason = [NSString stringWithFormat:@"Step %@ isn't answered, static score value ignored!", step.identifier];
+                        NSDictionary *userInfo = @{@"Reason" : reason};
+                        *error = [NSError errorWithDomain:ORKErrorDomain code:ORKErrorException userInfo:userInfo];
+                        return nil;
+                    }
+                }
+                
+                if (step.dynamicScoreValueBlock) {
+                    [scoreValues setObject:@(step.dynamicScoreValueBlock(stepResult)) forKey:step.identifier];
+                } else {
+                    [scoreValues setObject:@(step.staticScoreValue) forKey:step.identifier];
+                }
+                
+            } else {
+                NSString *reason = [NSString stringWithFormat:@"Failed to find a step result for identifier \"%@\"", step.identifier];
+                NSDictionary *userInfo = @{@"Reason" : reason};
+                *error = [NSError errorWithDomain:ORKErrorDomain code:ORKErrorException userInfo:userInfo];
+                return nil;
+            }
+        }
+        
+        NSExpression *expression = [NSExpression expressionWithFormat:format];
+        @try {
+            return [expression expressionValueWithObject:scoreValues context:nil];
+        } @catch (NSException *exception) {
+            NSString *reason = [NSString stringWithFormat:@"Failed to evaluate score format expression: \"%@\"", format];
+            NSDictionary *userInfo = @{@"Reason" : reason, @"Exception" : exception};
+            *error = [NSError errorWithDomain:ORKErrorDomain code:ORKErrorException userInfo:userInfo];
+            return nil;
+        }
+    }
+    
+    
     double sum = 0;
     
     for (ORKStep *step in self.steps) {
@@ -305,7 +362,7 @@ ORKTaskProgress ORKTaskProgressMake(NSUInteger current, NSUInteger total) {
             sum += step.staticScoreValue;
         }
     }
-    return sum;
+    return @(sum);
 }
 
 #pragma mark - NSSecureCoding

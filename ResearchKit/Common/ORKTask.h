@@ -139,6 +139,21 @@ ORK_AVAILABLE_DECL
  */
 - (nullable ORKStep *)stepBeforeStep:(nullable ORKStep *)step withResult:(ORKTaskResult *)result;
 
+/**
+ Computed total score. Evaluate score value using score format expression otherwise calculate the sum of static/dynamic score values.
+ 
+ @warning Static score value will be ignored if dynamic score value block is defined, or step is a question and not answered, or step is a form and contains unanswered quetions.
+ 
+ @note If you want a step to have always a score value then you have to define a dynamic score value block.
+ @note If step doesn't have an associated result then it will be ignored.
+ 
+ @param taskResult Task result
+ @param format Expression format e.g.: "(step1 + step2) * step3"
+ @param error Error object
+ @return Total score
+ */
+- (nullable NSNumber *)totalScoreWithTaskResult:(ORKTaskResult *)taskResult expressionFormat:(nullable NSString *)format error:(NSError **)error;
+
 @optional
 /**
  Returns the step that matches the specified identifier.
@@ -227,19 +242,6 @@ requests access to these HealthKit types.
  the task.
  */
 @property (nonatomic, readonly) BOOL providesBackgroundAudioPrompts;
-
-/**
- Computed total score. Sum of static/dynamic score values.
- 
- @warning Static score value will be ignored if dynamic score value block is defined, or step is a question and not answered, or step is a form and contains unanswered quetions.
- 
- @note If you want a step to have always a score value then you have to define a dynamic score value block.
- @note If step doesn't have an associated result then it will be ignored.
- 
- @param taskResult Task result
- @return Total score
- */
-- (double)totalScoreWithTaskResult:(ORKTaskResult *)taskResult;
 
 @end
 
