@@ -39,6 +39,12 @@
 
 #import "ORKHelpers_Internal.h"
 
+@interface ORKStep() {
+    double _staticScoreValue;
+    DynamicScoreValueBlock _dynamicScoreValueBlock;
+}
+
+@end
 
 @implementation ORKStep
 
@@ -168,6 +174,22 @@
 
 - (ORKPermissionMask)requestedPermissions {
     return ORKPermissionNone;
+}
+
+- (double)staticScoreValue {
+    return _staticScoreValue;
+}
+
+- (void)setStaticScoreValue:(double)value {
+    _staticScoreValue = value;
+}
+
+- (DynamicScoreValueBlock)dynamicScoreValueBlock {
+    return _dynamicScoreValueBlock;
+}
+
+- (void)setDynamicScoreValueBlock:(DynamicScoreValueBlock)block {
+    _dynamicScoreValueBlock = block;
 }
 
 @end

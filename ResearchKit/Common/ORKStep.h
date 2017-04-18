@@ -185,12 +185,28 @@ ORK_CLASS_AVAILABLE
  
  See also `dynamicScoreValueBlock`
  */
-@property (nonatomic) double staticScoreValue;
+- (double)staticScoreValue;
+
+/**
+ Set static score value
+
+ See also `setDynamicScoreValueBlock`
+ 
+ @param value Score value
+ */
+- (void)setStaticScoreValue:(double)value;
 
 /**
  Dynamic score value block
  */
-@property (nonatomic, copy, nullable) DynamicScoreValueBlock dynamicScoreValueBlock;
+- (nullable DynamicScoreValueBlock)dynamicScoreValueBlock;
+
+/**
+ Set dynamic score value block
+
+ @param block Dynamic score value block
+ */
+- (void)setDynamicScoreValueBlock:(nullable DynamicScoreValueBlock)block;
 
 /**
  Checks the parameters of the step and throws exceptions on invalid parameters.

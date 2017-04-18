@@ -116,6 +116,11 @@
     return nil;
 }
 
+- (nullable NSNumber *)totalScoreWithTaskResult:(ORKTaskResult *)taskResult expressionFormat:(nullable NSString *)format error:(NSError **)error {
+    *error = [NSError errorWithDomain:ORKErrorDomain code:ORKErrorException userInfo:@{@"Reason": @"Not implemented!"}];
+    return nil;
+}
+
 // Explicitly hide progress indication for all steps in this dynamic task.
 - (ORKTaskProgress)progressOfCurrentStep:(ORKStep *)step withResultProvider:(NSArray *)surveyResults {
     return (ORKTaskProgress){.total = 0, .current = 0};

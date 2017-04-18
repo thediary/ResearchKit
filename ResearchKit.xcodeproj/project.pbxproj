@@ -445,6 +445,7 @@
 		959A2C0E1D68C91400841B04 /* ORKShoulderRangeOfMotionStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 959A2C0C1D68C91400841B04 /* ORKShoulderRangeOfMotionStep.m */; };
 		95E11E551D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 95E11E531D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.h */; };
 		95E11E561D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95E11E541D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m */; };
+		A60837901E66CAAA00A11B0B /* ORKScoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A608378F1E66CAAA00A11B0B /* ORKScoreTests.m */; };
 		B11C54991A9EEF8800265E61 /* ORKConsentSharingStep.h in Headers */ = {isa = PBXBuildFile; fileRef = B11C54961A9EEF8800265E61 /* ORKConsentSharingStep.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B11C549B1A9EEF8800265E61 /* ORKConsentSharingStep.m in Sources */ = {isa = PBXBuildFile; fileRef = B11C54971A9EEF8800265E61 /* ORKConsentSharingStep.m */; };
 		B11C549F1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = B11C549C1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1019,6 +1020,7 @@
 		959A2C0C1D68C91400841B04 /* ORKShoulderRangeOfMotionStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKShoulderRangeOfMotionStep.m; sourceTree = "<group>"; };
 		95E11E531D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKShoulderRangeOfMotionStepViewController.h; sourceTree = "<group>"; };
 		95E11E541D73396300BF865B /* ORKShoulderRangeOfMotionStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKShoulderRangeOfMotionStepViewController.m; sourceTree = "<group>"; };
+		A608378F1E66CAAA00A11B0B /* ORKScoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKScoreTests.m; sourceTree = "<group>"; };
 		B11C54961A9EEF8800265E61 /* ORKConsentSharingStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKConsentSharingStep.h; sourceTree = "<group>"; };
 		B11C54971A9EEF8800265E61 /* ORKConsentSharingStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKConsentSharingStep.m; sourceTree = "<group>"; };
 		B11C549C1A9EF4A700265E61 /* ORKConsentSharingStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKConsentSharingStepViewController.h; sourceTree = "<group>"; };
@@ -1031,7 +1033,7 @@
 		B12EA0181B0D76AD00F9F554 /* ORKToneAudiometryPracticeStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKToneAudiometryPracticeStepViewController.m; sourceTree = "<group>"; };
 		B14660481AA10DD7002F95C2 /* zh_TW */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/ResearchKit.strings; sourceTree = "<group>"; };
 		B183A5951A8535D100C76870 /* ResearchKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ResearchKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B18AABE01A9F08D9003871B5 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		B18AABE01A9F08D9003871B5 /* ResearchKit.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = ResearchKit.modulemap; sourceTree = "<group>"; };
 		B1A860DB1A9693C400EA57B7 /* consent_01@2x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_01@2x.m4v"; sourceTree = "<group>"; };
 		B1A860DC1A9693C400EA57B7 /* consent_02@2x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_02@2x.m4v"; sourceTree = "<group>"; };
 		B1A860DD1A9693C400EA57B7 /* consent_03@2x.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = "consent_03@2x.m4v"; sourceTree = "<group>"; };
@@ -1550,7 +1552,7 @@
 				861610BF1A8D8EDD00245F7A /* Artwork.xcassets */,
 				B1C0F4E01A9BA65F0022C153 /* Localized */,
 				86C40C101A8D7C5C00081FAC /* Info.plist */,
-				B18AABE01A9F08D9003871B5 /* module.modulemap */,
+				B18AABE01A9F08D9003871B5 /* ResearchKit.modulemap */,
 			);
 			path = ResearchKit;
 			sourceTree = "<group>";
@@ -1624,6 +1626,7 @@
 				86CC8EB01AC09383001CCD89 /* ORKTextChoiceCellGroupTests.m */,
 				2EBFE11C1AE1B32D00CB8254 /* ORKUIViewAccessibilityTests.m */,
 				2EBFE11F1AE1B74100CB8254 /* ORKVoiceEngineTests.m */,
+				A608378F1E66CAAA00A11B0B /* ORKScoreTests.m */,
 			);
 			path = ResearchKitTests;
 			sourceTree = "<group>";
@@ -2977,6 +2980,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86CC8EB71AC09383001CCD89 /* ORKDataLoggerTests.m in Sources */,
+				A60837901E66CAAA00A11B0B /* ORKScoreTests.m in Sources */,
 				248604061B4C98760010C8A0 /* ORKAnswerFormatTests.m in Sources */,
 				86CC8EBA1AC09383001CCD89 /* ORKResultTests.m in Sources */,
 				FA7A9D391B0969A7005A2BEA /* ORKConsentSignatureFormatterTests.m in Sources */,
@@ -3450,7 +3454,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = ResearchKit/module.modulemap;
+				MODULEMAP_FILE = ResearchKit/ResearchKit.modulemap;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.researchkit.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = ResearchKit;
@@ -3482,7 +3486,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = ResearchKit/module.modulemap;
+				MODULEMAP_FILE = ResearchKit/ResearchKit.modulemap;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.researchkit.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = ResearchKit;
