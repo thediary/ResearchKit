@@ -281,36 +281,9 @@ ORKTaskProgress ORKTaskProgressMake(NSUInteger current, NSUInteger total) {
             
             ORKStepResult *stepResult = [taskResult stepResultForStepIdentifier:step.identifier];
             if (stepResult) {
-                
-                BOOL answered = YES;
-                for (ORKResult *result in stepResult.results) {
-                    if ([result isKindOfClass:[ORKQuestionResult class]]) {
-                        ORKQuestionResult *questionResult = (ORKQuestionResult *)result;
-                        if (!questionResult.answer) {
-                            answered = NO;
-                            break;
-                        }
-                    }
-                }
-                
-                if (!answered) {
-                    if (step.dynamicScoreValueBlock) {
-                        [scoreValues setObject:@(step.dynamicScoreValueBlock(stepResult)) forKey:step.identifier];
-                        continue;
-                    } else {
-                        NSString *reason = [NSString stringWithFormat:@"Step %@ isn't answered, static score value ignored!", step.identifier];
-                        NSDictionary *userInfo = @{@"Reason" : reason};
-                        *error = [NSError errorWithDomain:ORKErrorDomain code:ORKErrorException userInfo:userInfo];
-                        return nil;
-                    }
-                }
-                
                 if (step.dynamicScoreValueBlock) {
                     [scoreValues setObject:@(step.dynamicScoreValueBlock(stepResult)) forKey:step.identifier];
-                } else {
-                    [scoreValues setObject:@(step.staticScoreValue) forKey:step.identifier];
                 }
-                
             } else {
                 NSString *reason = [NSString stringWithFormat:@"Failed to find a step result for identifier \"%@\"", step.identifier];
                 NSDictionary *userInfo = @{@"Reason" : reason};
@@ -330,36 +303,15 @@ ORKTaskProgress ORKTaskProgressMake(NSUInteger current, NSUInteger total) {
         }
     }
     
-    
+    // Sum
     double sum = 0;
     
     for (ORKStep *step in self.steps) {
         
         ORKStepResult *stepResult = [taskResult stepResultForStepIdentifier:step.identifier];
-        if (!stepResult) continue;
         
-        BOOL answered = YES;
-        for (ORKResult *result in stepResult.results) {
-            if ([result isKindOfClass:[ORKQuestionResult class]]) {
-                ORKQuestionResult *questionResult = (ORKQuestionResult *)result;
-                if (!questionResult.answer) {
-                    answered = NO;
-                    break;
-                }
-            }
-        }
-        
-        if (!answered) {
-            if (step.dynamicScoreValueBlock) {
-                sum += step.dynamicScoreValueBlock(stepResult);
-            }
-            continue;
-        }
-        
-        if (step.dynamicScoreValueBlock) {
+        if (stepResult && step.dynamicScoreValueBlock) {
             sum += step.dynamicScoreValueBlock(stepResult);
-        } else {
-            sum += step.staticScoreValue;
         }
     }
     return @(sum);

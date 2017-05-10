@@ -181,22 +181,6 @@ ORK_CLASS_AVAILABLE
 @property (nonatomic, readonly) ORKPermissionMask requestedPermissions;
 
 /**
- Static score value
- 
- See also `dynamicScoreValueBlock`
- */
-- (double)staticScoreValue;
-
-/**
- Set static score value
-
- See also `setDynamicScoreValueBlock`
- 
- @param value Score value
- */
-- (void)setStaticScoreValue:(double)value;
-
-/**
  Dynamic score value block
  */
 - (nullable DynamicScoreValueBlock)dynamicScoreValueBlock;

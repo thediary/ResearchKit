@@ -140,12 +140,7 @@ ORK_AVAILABLE_DECL
 - (nullable ORKStep *)stepBeforeStep:(nullable ORKStep *)step withResult:(ORKTaskResult *)result;
 
 /**
- Computed total score. Evaluate score value using score format expression otherwise calculate the sum of static/dynamic score values.
- 
- @warning Static score value will be ignored if dynamic score value block is defined, or step is a question and not answered, or step is a form and contains unanswered quetions.
- 
- @note If you want a step to have always a score value then you have to define a dynamic score value block.
- @note If step doesn't have an associated result then it will be ignored.
+ Computed total score. Evaluate score value using score format expression otherwise calculate the sum of step score values.
  
  @param taskResult Task result
  @param format Expression format e.g.: "(step1 + step2) * step3"

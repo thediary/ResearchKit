@@ -30,7 +30,6 @@
 
 
 @import XCTest;
-@import ResearchKit;
 @import ResearchKit.Private;
 
 @interface ORKScoreTests : XCTestCase
@@ -41,12 +40,26 @@
 
 - (void)testTotalScoreSum {
     ORKStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:@"instructionStep"];
-    instructionStep.staticScoreValue = 2;
+    
+    instructionStep.dynamicScoreValueBlock = ^ double (ORKStepResult *stepResult) {
+        return 2;
+    };
     
     ORKStep *booleanStep = [ORKQuestionStep questionStepWithIdentifier:@"booleanStep"
                                                                  title:nil
                                                                 answer:[ORKAnswerFormat booleanAnswerFormat]];
-    booleanStep.staticScoreValue = 4;
+    
+    booleanStep.dynamicScoreValueBlock = ^ double (ORKStepResult *stepResult) {
+        ORKResult *result = stepResult.firstResult;
+        if ([result isKindOfClass:[ORKBooleanQuestionResult class]]) {
+            ORKBooleanQuestionResult *booleanResult = (ORKBooleanQuestionResult *)result;
+            if (booleanResult.booleanAnswer.boolValue) {
+                return 2;
+            }
+            return 1;
+        }
+        return 0;
+    };
     
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:@"task"
                                                                 steps:@[instructionStep, booleanStep]];
@@ -69,17 +82,19 @@
                                          expressionFormat:nil
                                                     error:&error];
     XCTAssertNil(error);
-    XCTAssertEqual(totalScore.doubleValue, 6);
+    XCTAssertEqual(totalScore.doubleValue, 4);
 }
 
 - (void)testTotalScoreExpressionFormat {
     ORKStep *instructionStep = [[ORKInstructionStep alloc] initWithIdentifier:@"instructionStep"];
-    instructionStep.staticScoreValue = 2;
+    
+    instructionStep.dynamicScoreValueBlock = ^ double (ORKStepResult *stepResult) {
+        return 2;
+    };
     
     ORKStep *booleanStep = [ORKQuestionStep questionStepWithIdentifier:@"booleanStep"
                                                                  title:nil
                                                                 answer:[ORKAnswerFormat booleanAnswerFormat]];
-    booleanStep.staticScoreValue = 4;
     
     booleanStep.dynamicScoreValueBlock = ^ double (ORKStepResult *stepResult) {
         ORKResult *result = stepResult.firstResult;
@@ -114,43 +129,6 @@
                                                     error:&error];
     XCTAssertNil(error);
     XCTAssertEqual(totalScore.doubleValue, 5);
-}
-
-- (void)testIgnoreUnansweredQuestion {
-    ORKStep *booleanStep = [ORKQuestionStep questionStepWithIdentifier:@"booleanStep"
-                                                                 title:nil
-                                                                answer:[ORKAnswerFormat booleanAnswerFormat]];
-    booleanStep.staticScoreValue = 1;
-    
-    ORKFormItem *booleanFormItem = [[ORKFormItem alloc] initWithIdentifier:@"booleanFormItem"
-                                                                      text:nil
-                                                              answerFormat:[ORKAnswerFormat booleanAnswerFormat]];
-    
-    ORKFormStep *formStep = [[ORKFormStep alloc] initWithIdentifier:@"formStep" title:nil text:nil];
-    formStep.formItems = @[booleanFormItem];
-    
-    formStep.staticScoreValue = 2;
-    
-    ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:@"task"
-                                                                steps:@[booleanStep, formStep]];
-    
-    ORKResult *booleanResult = [[ORKBooleanQuestionResult alloc] initWithIdentifier:@"booleanStep"];
-    ORKStepResult *booleanStepResult = [[ORKStepResult alloc] initWithStepIdentifier:@"booleanStep"
-                                                                             results:@[booleanResult]];
-    
-    ORKResult *booleanFormItemResult = [[ORKBooleanQuestionResult alloc] initWithIdentifier:@"booleanFormItem"];
-    ORKStepResult *formStepResult = [[ORKStepResult alloc] initWithStepIdentifier:@"formStep"
-                                                                          results:@[booleanFormItemResult]];
-    
-    ORKTaskResult *taskResult = [[ORKTaskResult alloc] initWithIdentifier:@"taskResult"];
-    taskResult.results = @[booleanStepResult, formStepResult];
-    
-    NSError *error = nil;
-    NSNumber *totalScore = [task totalScoreWithTaskResult:taskResult
-                                         expressionFormat:nil
-                                                    error:&error];
-    XCTAssertNil(error);
-    XCTAssertEqual(totalScore.doubleValue, 0);
 }
 
 @end
